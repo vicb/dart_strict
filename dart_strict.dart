@@ -14,7 +14,7 @@ import 'package:analyzer/src/generated/engine.dart';
 
 import 'dart:io';
 
-main(List<String> args) {
+void main(List<String> args) {
 
   if (args.length != 2) {
     print('Usage: dart_strict [path_to_sdk] [file_to_analyze]');
@@ -36,7 +36,7 @@ main(List<String> args) {
   LibraryElement libElement = context.computeLibraryElement(source);
   
   CompilationUnit resolvedUnit = context.resolveCompilationUnit(source, libElement);
-  var visitor = new _ASTVisitor(li);
+  _ASTVisitor visitor = new _ASTVisitor(li);
   resolvedUnit.accept(visitor);
   
   if (visitor.found_errors) {
@@ -62,14 +62,14 @@ class _ASTVisitor extends GeneralizingAstVisitor {
         found_errors = true;
         printHint("Missing a return type for function '${node.name}'", node.beginToken.offset);
       }
-    } else if (node is VariableDeclaration) {
+    } else if (node is VariableDeclarationList) {
       // can this ever be the case?
-      if (node.element.type == null) {
+      if (node.type == null) {
         found_errors = true;
-        printHint("Variable '${node.name}' is missing a type annotation", node.beginToken.offset);
-      } else if (node.element.type.isDynamic) {
+        printHint("Variable declaration is missing a type annotation", node.beginToken.offset);
+      } else if (node.type.toString() == "dynamic") { // gross... work out how to test for dynamic
         found_errors = true;
-        printHint("Variable '${node.name}' cannot use dynamic as a type annotation", node.beginToken.offset);
+        printHint("Variable declaration cannot use dynamic as a type annotation", node.beginToken.offset);
       }
     } else if (node is SimpleFormalParameter) {
       if (node.type == null) {
