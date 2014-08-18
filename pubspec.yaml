@@ -1,0 +1,16 @@
+name: dart_strict
+version: 0.0.0
+dependencies:
+  analyzer:
+    path: "/home/myitcv/dev/dart/bleeding_edge/dart/pkg/analyzer"
+dev_dependencies:
+dependency_overrides:
+  args:
+    path: "/home/myitcv/dev/dart/bleeding_edge/dart/pkg/args"
+  logging:
+    path: "/home/myitcv/dev/dart/bleeding_edge/dart/pkg/logging"
+  path:
+    path: "/home/myitcv/dev/dart/bleeding_edge/dart/pkg/path"
+  watcher:
+    path: "/home/myitcv/dev/dart/bleeding_edge/dart/pkg/watcher"
+transformers:
